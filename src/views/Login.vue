@@ -45,7 +45,7 @@ import decode from 'jwt-decode'
                 try {
                     let res = await this.axios.post('/user/login',this.user)
                     let user = decode(res.data.token)
-                    if(user.role == 'ADMIN_ROLE'){
+                    if(user.role == 'ADMIN'){
                         this.$store.dispatch("saveToken", res.data.token);
                         this.$router.push({name: 'Home'});
                         this.error = false

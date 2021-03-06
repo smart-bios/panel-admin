@@ -69,8 +69,9 @@
 
         computed:{
             logged(){
-                return this.$store.state.user && this.$store.state.user.role === 'ADMIN_ROLE';
+                return this.$store.state.user && this.$store.state.user.role === 'ADMIN';
             },
+            
             username(){
                 return this.$store.state.user.username
             }

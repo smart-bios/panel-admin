@@ -13,7 +13,7 @@
                 <v-spacer></v-spacer>
                 <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on }">
-                        <v-btn color="primary" dark v-on="on">Register user</v-btn>
+                        <v-btn color="primary" dark v-on="on">ADD User</v-btn>
                     </template>
                     <v-card>
                         <v-card-title>
@@ -39,11 +39,11 @@
                                             required
                                         ></v-select>
                                     </v-col>
-                                    <v-col cols="12" sm="6" v-if="editedIndex == 1">
+                                    <v-col cols="12" sm="6">
                                         <v-select
-                                            :items= state
-                                            label="State"
-                                            v-model="user.state"
+                                            :items= estado
+                                            label="Status"
+                                            v-model="user.status"
                                             required
                                         ></v-select>
                                     </v-col>           
@@ -65,8 +65,8 @@
                 :items="users"
                 :search="search"
             >
-                <template v-slot:[`item.state`]="{ item }">
-                    <v-chip :color="getColor(item.state)" dark></v-chip>
+                <template v-slot:[`item.status`]="{ item }">
+                    <v-chip :color="getColor(item.status)" dark></v-chip>
                 </template>
                 <template v-slot:[`item.action`]="{ item }">
                     <v-icon small class="mr-2" @click="edit(item)">mdi-pencil</v-icon>
@@ -91,20 +91,21 @@
                 headers: [
                     {text: 'Username', value: 'username', align: 'left', sortable: false},
                     {text: 'Email', value: 'email', align: 'left', sortable: false},
-                    {text: 'Rol', value: 'role', align: 'left', sortable: false},
-                    {text: 'State', value: 'state', align: 'left', sortable: false},
+                    {text: 'Role', value: 'role', align: 'left', sortable: false},
+                    {text: 'Status', value: 'status', align: 'left', sortable: false},
                     {text: 'Registration Date', value: 'createdAt', align: 'left', sortable: false},
                     {text: 'Action', value: 'action', align: 'left', sortable: false},
                 ],
-                role: ['USER_ROLE','ADMIN_ROLE'],
-                state: [{text: 'Enabled', value: true},{text: 'Disabled', value: false} ],
+                role: ['USER','ADMIN'],
+                estado: [{text: 'Enabled', value: true}, {text: 'Disabled', value: false} ],
                 users: [],
                 user: {
+                    id: '',
                     username: '',
                     email: '',
                     password: '',
-                    role: 'USER_ROLE',
-                    state: true
+                    role: 'USER',
+                    status: true
                 },
                 editedIndex : -1,
                 message: '',
@@ -126,20 +127,23 @@
 
             async list(){
                 try {
-                    let config = { headers : { token : this.$store.state.token}}
-                    let res = await this.axios.get('/user/list', config)
-                    this.users = res.data.users
+                    //let config = { headers : { token : this.$store.state.token}}
+                    //let res = await this.axios.get('/user/list', config)
+                    let res = await this.axios.get('/user/list')
+                    //console.log(res.data);
+                    this.users = res.data.result
                 } catch (error) {
                      console.log(error)
                 }             
             },
 
             async register(){
-               let config = { headers : { token : this.$store.state.token}}
+               //let config = { headers : { token : this.$store.state.token}}
                if(this.editedIndex == -1){
                    try {
-                       let res = await this.axios.post('/user/add', this.user, config)
-                       this.message = res.data.message
+                       //let res = await this.axios.post('/user/add', this.user, config)
+                       let res = await this.axios.post('/user/add', this.user)
+                       this.message = res.data.msg
                        this.status = res.data.status
                        if(res.data.status == 'success'){
                             this.list()
@@ -151,9 +155,17 @@
                    }
                }else{
                    try {
-                      let res = await this.axios.put(`/user/update/${this._id}`, this.user, config)
-                      this.message = res.data.message
-                      this.status = res.data.status
+                       //let res = await this.axios.put(`/user/update/${this._id}`, this.user, config)
+                        let res = await this.axios.put(`/user/edit/${this.user.id}`, {
+                            username: this.user.username,
+                            email: this.user.email,
+                            role: this.user.role,
+                            status: this.user.status
+                        })
+                        
+                        this.message = res.data.msg
+                        this.status = res.data.status
+                        
                         if(res.data.status == 'success'){
                             this.list()
                             this.close()
@@ -165,21 +177,23 @@
             },
 
             edit(item){
+
+               // console.log(item._id)
                 this.editedIndex = 1;
-                this._id = item._id
+                this.user.id = item._id
                 this.user.username = item.username
                 this.user.email = item.email
                 this.user.role = item.role
-                this.user.state = item.state
-                this.dialog = true
+                //this.user.status = item.status
+                this.dialog = true 
             },
 
             async remove(item){
-                let config = { headers : { token : this.$store.state.token}}
+                //let config = { headers : { token : this.$store.state.token}}
                 confirm('Estás segura de que quieres eliminar este usuario?') &&
-                await this.axios.delete(`/user/delete/${item._id}`, config)
+                await this.axios.delete(`/user/delete/${item._id}`)
                 .then(res => {
-                    this.message = res.data.message
+                    this.message = res.data.msg
                     this.status = res.data.status
                     this.list();
                     this.snackbar = true

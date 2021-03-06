@@ -73,7 +73,7 @@ router.beforeEach((to, from, next) => {
   
   if(rutasProtegida){
       //console.log(`rutas protegida: ${rutasProtegida}`)
-    if(store.state.user && store.state.user.role === 'ADMIN_ROLE'){
+    if(store.state.user && store.state.user.role === 'ADMIN'){
       next()
     }else{
       console.log("El usuario no ha iniciado session")
