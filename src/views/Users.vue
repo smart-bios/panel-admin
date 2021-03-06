@@ -1,16 +1,9 @@
 <template>
     <div>
+        <h1>Users</h1>
+        <hr class="mb-3">
         <v-card raised>
             <v-card-title>
-                <v-spacer></v-spacer>
-                <v-text-field
-                    v-model="search"
-                    append-icon="mdi-magnify"
-                    label="Search"
-                    single-line
-                    hide-details
-                ></v-text-field>
-                <v-spacer></v-spacer>
                 <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on }">
                         <v-btn color="primary" dark v-on="on">ADD User</v-btn>
@@ -58,6 +51,14 @@
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
+                <v-spacer></v-spacer>
+                <v-text-field
+                    v-model="search"
+                    append-icon="mdi-magnify"
+                    label="Search"
+                    single-line
+                    hide-details
+                ></v-text-field>
             </v-card-title>
         
             <v-data-table

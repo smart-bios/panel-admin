@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-navigation-drawer v-model="drawer" class="indigo darken-4" app clipped dark v-if="logged"> 
+        <v-navigation-drawer v-model="drawer" class="secondary" app clipped dark v-if="logged"> 
             <template v-slot:prepend>
                 <v-list-item two-line>
                 <v-list-item-avatar>
@@ -18,7 +18,7 @@
             <v-divider></v-divider>
 
             <v-list dense>
-                <v-list-item-group v-model="item" color="primary">
+                <v-list-item-group v-model="item" color="accent" dark>
                     <v-list-item
                         v-for="(item, i) in items"
                         :key="i"
@@ -42,7 +42,7 @@
             </template>
         </v-navigation-drawer>
 
-        <v-app-bar app clipped-left>
+        <v-app-bar app clipped-left color="primary" dark>
             <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="logged"></v-app-bar-nav-icon>
             <v-toolbar-title>PANEL ADMINISTRACION</v-toolbar-title>
         </v-app-bar>
@@ -58,13 +58,13 @@
             items: [
                 { text: 'Files', icon: 'mdi-folder', to: 'Storage' },
                 { text: 'Users', icon: 'mdi-account-multiple', to: 'Users' },
-                { text: 'References genomes', icon: 'mdi-format-align-justify', to: 'Genomes' },
+                { text: 'Species', icon: 'mdi-format-align-justify', to: 'Species' },
                 { text: 'Databases', icon: 'mdi-database', to: 'Databases'},
             ],
         }),
 
         created () {
-            this.$vuetify.theme.dark = true
+            this.$vuetify.theme.dark = false
         },
 
         computed:{

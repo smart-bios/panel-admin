@@ -4,7 +4,7 @@ import store from '../store'
 import Home from '../views/Home.vue'
 import Storage from '../views/Storage.vue'
 import Users from '../views/Users.vue'
-import Genomes from '../views/Genomes.vue'
+import Species from '../views/Species.vue'
 import Databases from '../views/Databases.vue'
 import Login from '../views/Login.vue'
 
@@ -38,9 +38,9 @@ Vue.use(VueRouter)
     }
   },
   {
-    path: '/genomes',
-    name: 'Genomes',
-    component: Genomes,
+    path: '/species',
+    name: 'Soecies',
+    component: Species,
     meta: {
       user: true
     }
