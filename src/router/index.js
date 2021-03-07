@@ -6,7 +6,7 @@ import Storage from '../views/Storage.vue'
 import Files from '../views/Files.vue'
 import Users from '../views/Users.vue'
 import Species from '../views/Species.vue'
-import Databases from '../views/Databases.vue'
+import Projects from '../views/Projects.vue'
 import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
@@ -47,9 +47,9 @@ Vue.use(VueRouter)
     }
   },
   {
-    path: '/databases',
-    name: 'Databases',
-    component: Databases,
+    path: '/projects',
+    name: 'Projects',
+    component: Projects,
     meta: {
       user: true
     }

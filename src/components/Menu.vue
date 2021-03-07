@@ -56,10 +56,12 @@
             drawer: null,
             item: 0,
             items: [
-                { text: 'Files', icon: 'mdi-folder', to: 'Files' },
-                { text: 'Users', icon: 'mdi-account-multiple', to: 'Users' },
+                { text: 'Projects', icon: 'mdi-database', to: 'Projects'},
                 { text: 'Species', icon: 'mdi-format-align-justify', to: 'Species' },
-                { text: 'Databases', icon: 'mdi-database', to: 'Databases'},
+                { text: 'Users', icon: 'mdi-account-multiple', to: 'Users' },
+                { text: 'Files', icon: 'mdi-folder', to: 'Files' },
+                
+                
             ],
         }),
 
