@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import store from '../store'
 import Home from '../views/Home.vue'
 import Storage from '../views/Storage.vue'
+import Files from '../views/Files.vue'
 import Users from '../views/Users.vue'
 import Species from '../views/Species.vue'
 import Databases from '../views/Databases.vue'
@@ -21,9 +22,9 @@ Vue.use(VueRouter)
   },
 
   {
-    path: '/storage',
-    name: 'Storage',
-    component: Storage,
+    path: '/files',
+    name: 'Files',
+    component: Files,
     meta: {
       user: true
     }

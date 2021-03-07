@@ -70,8 +70,8 @@
                     <v-chip :color="getColor(item.status)" dark></v-chip>
                 </template>
                 <template v-slot:[`item.action`]="{ item }">
-                    <v-icon small class="mr-2" @click="edit(item)">mdi-pencil</v-icon>
-                    <v-icon small @click="remove(item)"> mdi-delete </v-icon>
+                    <v-btn x-small color="info" dark @click="edit(item)" >Edit</v-btn>
+                    <v-btn x-small color="error" dark @click="remove(item)" >Delete</v-btn>
                 </template>
             </v-data-table>
         </v-card>
@@ -95,7 +95,7 @@
                     {text: 'Role', value: 'role', align: 'left', sortable: false},
                     {text: 'Status', value: 'status', align: 'left', sortable: false},
                     {text: 'Registration Date', value: 'createdAt', align: 'left', sortable: false},
-                    {text: 'Action', value: 'action', align: 'left', sortable: false},
+                    {text: '', value: 'action', align: 'left', sortable: false},
                 ],
                 role: ['USER','ADMIN'],
                 estado: [{text: 'Enabled', value: true}, {text: 'Disabled', value: false} ],
