@@ -46,8 +46,8 @@
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="blue darken-1" text @click="close">Close</v-btn>
-                            <v-btn color="blue darken-1" text @click="register">Save</v-btn>
+                            <v-btn color="primary" dark small elevation="3" @click="close">Close</v-btn>
+                            <v-btn color="primary" dark small elevation="3" @click="register">Save</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -66,6 +66,7 @@
                     :headers="headers"
                     :items="users"
                     :search="search"
+                    dense
                 >
                     <template v-slot:[`item.status`]="{ item }">
                         <v-chip :color="getColor(item.status)" dark></v-chip>

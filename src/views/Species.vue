@@ -10,7 +10,7 @@
                     </template>
 
                     <v-card>
-                        <v-card-title> {{formTitle}} </v-card-title>
+                        <v-card-title class="indigo lighten-3"> {{formTitle}} </v-card-title>
 
                         <v-card-text>
                             <v-container>
@@ -18,10 +18,10 @@
                                     <v-col cols="12" sm="12">
                                         <v-select :items= kingdom label="Kingdom*" v-model="specie.kingdom" required></v-select>
                                     </v-col>
-                                    <v-col cols="12" sm="12">
+                                    <v-col cols="12" sm="6">
                                         <v-text-field label="Name*" v-model="specie.name" required></v-text-field>
                                     </v-col>
-                                    <v-col cols="12" sm="12">
+                                    <v-col cols="12" sm="6">
                                         <v-text-field label="Scientific name*" v-model="specie.scientific_name" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="6">
@@ -45,8 +45,8 @@
 
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="blue darken-1" text @click="close">Close</v-btn>
-                            <v-btn color="blue darken-1" text @click="register">Save</v-btn>
+                            <v-btn color="primary" dark small elevation="3" @click="close">Close</v-btn>
+                            <v-btn color="primary" dark small elevation="3" @click="register">Save</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -55,7 +55,7 @@
             <v-card-text>
                 <v-row>
                     <v-col cols="12" md="4" v-for="item in species" :key= item._id>
-                        <v-card class="mx-auto" outlined>
+                        <v-card class="mx-auto" elevation="12">
                             <v-list-item three-line>
                                 <v-list-item-content>
                                     <div class="overline mb-4">

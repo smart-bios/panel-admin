@@ -30,8 +30,8 @@
                         <v-divider></v-divider>
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="blue darken-1" text @click="close">Close</v-btn>
-                            <v-btn color="blue darken-1" text @click="register">Save</v-btn>
+                            <v-btn color="primary" dark small elevation="3" @click="close">Close</v-btn>
+                            <v-btn color="primary" dark small elevation="3" @click="register">Save</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -40,8 +40,8 @@
             <v-card-text>
                 <v-row>
                     <v-col cols="12" md="4" v-for="item in projects" :key= item._id>
-                        <v-card color="#f6f6f6">
-                            <v-card-title>{{item.code}}</v-card-title>
+                        <v-card elevation="12">
+                            <v-card-title >{{item.code}}</v-card-title>
                             <v-card-subtitle> {{item.advisor}}</v-card-subtitle>
                             <v-card-text>
                                 <p>{{item.description}}</p>
