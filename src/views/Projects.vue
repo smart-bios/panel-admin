@@ -78,7 +78,6 @@
                     description: '',
                     methods:'',
                 },
-                species: [],
                 editedIndex : -1,
                 message: '',
                 status: ''

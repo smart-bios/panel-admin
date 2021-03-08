@@ -7,6 +7,7 @@ import Files from '../views/Files.vue'
 import Users from '../views/Users.vue'
 import Species from '../views/Species.vue'
 import Projects from '../views/Projects.vue'
+import Assemblys from '../views/Assemblys.vue'
 import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
@@ -54,7 +55,14 @@ Vue.use(VueRouter)
       user: true
     }
   },
-
+  {
+    path: '/assemblys',
+    name: 'Assemblys',
+    component: Assemblys,
+    meta: {
+      user: true
+    }
+  },
   {
     path: '/login',
     name: 'Login',

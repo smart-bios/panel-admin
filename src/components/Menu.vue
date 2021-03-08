@@ -57,6 +57,7 @@
             item: 0,
             items: [
                 { text: 'Projects', icon: 'mdi-database', to: 'Projects'},
+                { text: 'Assemblys', icon: 'mdi-database', to: 'Assemblys'},
                 { text: 'Species', icon: 'mdi-format-align-justify', to: 'Species' },
                 { text: 'Users', icon: 'mdi-account-multiple', to: 'Users' },
                 { text: 'Files', icon: 'mdi-folder', to: 'Files' },
