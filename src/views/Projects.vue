@@ -15,7 +15,7 @@
                             <v-container>
                                 <v-row>
                                     <v-col cols="12" sm="6">
-                                        <v-text-field label="Code*" v-model="project.code" required></v-text-field>
+                                        <v-text-field label="Code*"  @keyup="uppercase" v-model="project.code" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="6">
                                         <v-text-field label="Advisor" v-model="project.advisor" required></v-text-field>
@@ -27,9 +27,6 @@
                                     <v-col cols="12" sm="12">
                                         <v-textarea outlined label="Methods" v-model="project.methods"
                                         ></v-textarea>
-                                    </v-col>
-                                    <v-col cols="12" sm="12">
-                                        <v-select :items= species item-text="scientific_name" item-value="_id"  label="Specie" v-model="project.specie" required></v-select>
                                     </v-col>
                                 </v-row>
                             </v-container>
@@ -80,7 +77,6 @@
                     advisor: '',
                     description: '',
                     methods:'',
-                    specie:''
                 },
                 species: [],
                 editedIndex : -1,
@@ -90,7 +86,6 @@
             }
         },
         created(){
-            this.list_species();
             this.list();
         },
 
@@ -101,17 +96,6 @@
         },
 
         methods: {
-
-            async list_species(){
-                try {
-                    let res = await this.axios.get('/specie/list');
-                    console.log(res.data.result)
-                    this.species = res.data.result
-                } catch (error) {
-                    console.log(error)
-                }
-            },
-
             async list() {
                 try {
                     let res = await this.axios.get('/project/list')
@@ -180,7 +164,6 @@
                 this.project.advisor = item.advisor
                 this.project.description = item.description
                 this.project.methods = item.methods
-                this.project.specie = item.specie
                 this.dialog = true 
             },
 
@@ -195,6 +178,10 @@
                 this.clear()
                 this.dialog = false
                 this.editedIndex=-1;
+            },
+
+            uppercase() {
+                this.project.code = this.project.code.toUpperCase();
             }
 
         }
