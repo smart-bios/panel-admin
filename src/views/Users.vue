@@ -2,11 +2,11 @@
     <div>
         <h1>Users</h1>
         <hr class="mb-3">
-        <v-card raised>
+        <v-card class="px-3 mt-3">
             <v-card-title>
                 <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on }">
-                        <v-btn color="primary" dark v-on="on">ADD User</v-btn>
+                        <v-btn color="primary" small elevation="3" dark v-on="on">ADD User</v-btn>
                     </template>
                     <v-card>
                         <v-card-title>
@@ -61,19 +61,21 @@
                 ></v-text-field>
             </v-card-title>
         
-            <v-data-table
-                :headers="headers"
-                :items="users"
-                :search="search"
-            >
-                <template v-slot:[`item.status`]="{ item }">
-                    <v-chip :color="getColor(item.status)" dark></v-chip>
-                </template>
-                <template v-slot:[`item.action`]="{ item }">
-                    <v-btn x-small color="info" dark @click="edit(item)" >Edit</v-btn>
-                    <v-btn x-small color="error" dark @click="remove(item)" >Delete</v-btn>
-                </template>
-            </v-data-table>
+            <v-card-text>
+                <v-data-table
+                    :headers="headers"
+                    :items="users"
+                    :search="search"
+                >
+                    <template v-slot:[`item.status`]="{ item }">
+                        <v-chip :color="getColor(item.status)" dark></v-chip>
+                    </template>
+                    <template v-slot:[`item.action`]="{ item }">
+                        <v-btn x-small color="info" dark @click="edit(item)" >Edit</v-btn>
+                        <v-btn x-small color="error" dark @click="remove(item)" >Delete</v-btn>
+                    </template>
+                </v-data-table>
+            </v-card-text>
         </v-card>
         <v-snackbar v-model="snackbar" :timeout= "timeout" :color="status">
             {{message}}

@@ -3,10 +3,11 @@
         <h1>Assemblys</h1>
         <hr class="mb-3">
         <v-card class="px-3 mt-3">
-            <v-card-text>
+            
+            <v-card-title>
                 <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on, attrs }">
-                        <v-btn color="primary" dark v-bind="attrs" v-on="on"> Add Assembly</v-btn>
+                        <v-btn color="primary" dark elevation="2" small v-bind="attrs" v-on="on"> Add Assembly</v-btn>
                     </template>
 
                     <v-card>
@@ -64,6 +65,9 @@
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
+            </v-card-title>
+
+            <v-card-text>
                 <v-row>
                     <v-col col="12" md="6" v-for="item in assemblys" :key= item._id>
                         <v-card>

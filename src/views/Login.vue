@@ -3,8 +3,8 @@
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="6">
             <v-card class="elevation-12">
-              <v-toolbar color="secondary" flat>
-                <v-toolbar-title>Iniciar sesión</v-toolbar-title>
+              <v-toolbar dark color="primary" flat>
+                <v-toolbar-title>Login</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
               <v-card-text>

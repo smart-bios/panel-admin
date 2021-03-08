@@ -3,10 +3,10 @@
         <h1>Projects</h1>
         <hr class="mb-3">
         <v-card class="px-3 mt-3">
-            <v-card-text>
+            <v-card-title>
                 <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on, attrs }">
-                        <v-btn color="primary" dark v-bind="attrs" v-on="on"> Add Project</v-btn>
+                        <v-btn color="primary" dark small elevation="3" v-bind="attrs" v-on="on"> Add Project</v-btn>
                     </template>
 
                     <v-card>
@@ -24,10 +24,6 @@
                                         <v-textarea outlined label="Description" v-model="project.description"
                                         ></v-textarea>
                                     </v-col>
-                                    <v-col cols="12" sm="12">
-                                        <v-textarea outlined label="Methods" v-model="project.methods"
-                                        ></v-textarea>
-                                    </v-col>
                                 </v-row>
                             </v-container>
                         </v-card-text>
@@ -39,6 +35,9 @@
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
+            </v-card-title>
+            
+            <v-card-text>
                 <v-row>
                     <v-col cols="12" md="4" v-for="item in projects" :key= item._id>
                         <v-card color="#f6f6f6">
@@ -75,9 +74,7 @@
                     id: '',
                     code: '',
                     advisor: '',
-                    description: '',
-                    methods:'',
-                },
+                    description: ''                },
                 editedIndex : -1,
                 message: '',
                 status: ''
@@ -162,7 +159,6 @@
                 this.project.code = item.code
                 this.project.advisor = item.advisor
                 this.project.description = item.description
-                this.project.methods = item.methods
                 this.dialog = true 
             },
 
@@ -170,7 +166,6 @@
                 this.project.code = ''
                 this.project.advisor = ''
                 this.project.description = ''
-                this.project.methods = ''
             },
 
             close(){
