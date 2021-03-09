@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Projects</h1>
+        <h1>Proyectos</h1>
         <hr class="mb-3">
         <v-card class="px-3 mt-3">
             <v-card-title>
@@ -14,11 +14,14 @@
                         <v-card-text>
                             <v-container>
                                 <v-row>
-                                    <v-col cols="12" sm="6">
+                                    <v-col cols="12" md="3">
                                         <v-text-field label="Code*"  @keyup="uppercase" v-model="project.code" required></v-text-field>
                                     </v-col>
-                                    <v-col cols="12" sm="6">
+                                    <v-col cols="12" md="7">
                                         <v-text-field label="Advisor" v-model="project.advisor" required></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md="2">
+                                        <v-text-field label="Year" v-model="project.year" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12">
                                         <v-textarea outlined label="Description" v-model="project.description"
@@ -74,6 +77,7 @@
                     id: '',
                     code: '',
                     advisor: '',
+                    year: '',
                     description: ''                },
                 editedIndex : -1,
                 message: '',
@@ -158,6 +162,7 @@
                 this.project.id = item._id
                 this.project.code = item.code
                 this.project.advisor = item.advisor
+                this.project.year = item.year
                 this.project.description = item.description
                 this.dialog = true 
             },
@@ -165,7 +170,9 @@
             clear(){
                 this.project.code = ''
                 this.project.advisor = ''
+                this.project.year = ''
                 this.project.description = ''
+                
             },
 
             close(){

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Users</h1>
+        <h1>Usuarios</h1>
         <hr class="mb-3">
         <v-card class="px-3 mt-3">
             <v-card-title>

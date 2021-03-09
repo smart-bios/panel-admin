@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Assemblys</h1>
+        <h1>Ensambles</h1>
         <hr class="mb-3">
         <v-card class="px-3 mt-3">
             
@@ -16,7 +16,7 @@
                             <v-container>
                                 <v-row>
                                     <v-col cols="12" sm="6">
-                                         <v-select v-model="assembly.project" :items="projects" item-text="code" item-value="_id" label="Project"></v-select>
+                                         <v-select v-model="assembly.project" :items="projects" item-text="code" item-value="_id" label="Project" required></v-select>
                                     </v-col>
                                     <v-col cols="12" sm="6">
                                         <v-text-field label="Code*"  @keyup="uppercase" v-model="assembly.code" required></v-text-field>
@@ -61,7 +61,7 @@
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn color="primary" dark small elevation="3" @click="close">Close</v-btn>
-                            <v-btn color="primary" dark small elevation="3" @click="register">Save</v-btn>
+                            <v-btn color="primary" dark small elevation="3" type="submit" @click="register">Save</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>

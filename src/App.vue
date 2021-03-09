@@ -3,7 +3,7 @@
     <Menu />
     <v-content>
       <!-- <v-container class="fill-height" fluid> -->
-      <v-container class="pa-5">
+      <v-container fluid class="pa-3">
         <router-view/>
       </v-container>
       

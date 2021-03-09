@@ -56,11 +56,11 @@
             drawer: null,
             item: 0,
             items: [
-                { text: 'Projects', icon: 'mdi-database', to: 'Projects'},
-                { text: 'Assemblys', icon: 'mdi-database', to: 'Assemblys'},
-                { text: 'Species', icon: 'mdi-format-align-justify', to: 'Species' },
-                { text: 'Users', icon: 'mdi-account-multiple', to: 'Users' },
-                { text: 'Files', icon: 'mdi-folder', to: 'Files' },
+                { text: 'Proyectos', icon: 'mdi-database', to: 'Projects'},
+                { text: 'Ensambles', icon: 'mdi-database', to: 'Assemblys'},
+                { text: 'Especies', icon: 'mdi-format-align-justify', to: 'Species' },
+                { text: 'Usuarios', icon: 'mdi-account-multiple', to: 'Users' },
+                { text: 'Archivos', icon: 'mdi-folder', to: 'Files' },
                 
                 
             ],
