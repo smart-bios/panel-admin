@@ -8,6 +8,7 @@ import Users from '../views/Users.vue'
 import Species from '../views/Species.vue'
 import Projects from '../views/Projects.vue'
 import Assemblys from '../views/Assemblys.vue'
+import Genes from '../views/Genes.vue'
 import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
@@ -63,6 +64,16 @@ Vue.use(VueRouter)
       user: true
     }
   },
+
+  {
+    path: '/genes',
+    name: 'Genes',
+    component: Genes,
+    meta: {
+      user: true
+    }
+  },
+
   {
     path: '/login',
     name: 'Login',
