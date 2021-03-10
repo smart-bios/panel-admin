@@ -69,10 +69,14 @@
 
             <v-card-text>
                 <v-row>
-                    <v-col col="12" md="6" v-for="item in assemblys" :key= item._id>
+                    <v-col col="12" xs= "12" sm= "12" md="4" v-for="item in assemblys" :key= item._id>
                         <v-card elevation="12">
                             <v-card-title>{{item.code}}</v-card-title>
-                            <v-card-subtitle>{{item.project.code}}</v-card-subtitle>
+                            <v-card-subtitle> 
+                                {{item.project.code}} 
+                                <br>
+                                <i>{{item.specie.scientific_name}} {{item.variety}}</i>
+                            </v-card-subtitle>
                             <v-card-text>
                                 
                                 {{item.methods}}
@@ -104,7 +108,7 @@
                                         </tr>
                                     </tbody>
                                     </template>
-                                </v-simple-table>
+                                </v-simple-table> 
                             </v-card-text>
                             <v-card-actions>
                                 <v-btn x-small color="info" dark @click="edit(item)" >Edit</v-btn>

@@ -45,7 +45,7 @@
                     <v-col cols="12" md="4" v-for="item in projects" :key= item._id>
                         <v-card elevation="12">
                             <v-card-title >{{item.code}}</v-card-title>
-                            <v-card-subtitle> {{item.advisor}}</v-card-subtitle>
+                            <v-card-subtitle> {{item.advisor}} | {{item.year}}</v-card-subtitle>
                             <v-card-text>
                                 <p>{{item.description}}</p>
                                 <p>{{item.methods}}</p>
