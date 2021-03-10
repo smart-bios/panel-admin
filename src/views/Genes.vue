@@ -4,7 +4,7 @@
         <hr class="mb-3">
         <v-card>
             <v-card-title>
-                <v-select v-model="gene.assembly" :items="assemblys" item-text="code" item-value="_id" label="Assembly" @change="listgenes()" outlined></v-select>
+                <v-select  dense v-model="gene.assembly" :items="assemblys" item-text="code" item-value="_id" label="Assembly" @change="listgenes()" outlined></v-select>
                 <v-spacer></v-spacer>
                 <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on }">
@@ -47,11 +47,19 @@
             </v-card-title>
 
             <v-card-text>
+                <v-text-field
+                    v-model="search"
+                    append-icon="mdi-magnify"
+                    label="Search"
+                    single-line
+                    hide-details
+                ></v-text-field>
+
                  <v-data-table
                     :headers="headers"
                     :items="genes"
                     :search="search"
-                    dense
+                    :loading = "loading" 
                 >
                     <template v-slot:[`item.action`]="{ item }">
                         <v-btn x-small color="info" dark @click="edit(item)" >Edit</v-btn>
@@ -59,8 +67,10 @@
                     </template>
                 </v-data-table>
             </v-card-text>
-
         </v-card>
+        <v-snackbar v-model="snackbar" :timeout= "timeout" :color="status">
+            {{message}}
+        </v-snackbar>
     </div>
 </template>
 
@@ -69,13 +79,14 @@
         data(){
             return {
                 search: '',
+                loading: false,
                 dialog: false,
                 snackbar: false,
                 timeout : 4000,
                 headers: [
                     {text: 'Locus ID', value: 'locus', align: 'left', sortable: false},
                     {text: 'Description', value: 'desc', align: 'left', sortable: false},
-                    {text: 'Product', value: 'product', align: 'left', sortable: false},
+                    {text: 'Product', value: 'product', align: 'left', sortable: true},
                     {text: '', value: 'action', align: 'left', sortable: false},
                 ],
                 product: ['mRNA','tRNA', 'rRNA', 'smallRNA', 'tmRNA'],
@@ -119,11 +130,13 @@
 
             async listgenes(){
                 try {
-                    //let config = { headers : { token : this.$store.state.token}}
-                    //let res = await this.axios.get('/user/list', config)
+                    this.loading = true
                     let res = await this.axios.get(`/gene/list/${this.gene.assembly}`)
-                    console.log(res.data.result);
-                    this.genes = res.data.result
+                    if(res.data.status == 'success'){
+                        this.genes = res.data.result
+                        this.loading = false
+                    }                
+    
                 } catch (error) {
                      console.log(error)
                 }             
@@ -153,9 +166,10 @@
                         this.status = res.data.status
                         
                         if(res.data.status == 'success'){
-                            this.list()
+                            //this.search = '';
                             this.close()
                         }
+                        this.snackbar= true
                    } catch (error) {
                        console.log(error)  
                    }
@@ -164,7 +178,6 @@
 
             edit(item){
 
-                console.log(item._id)
                 this.editedIndex = 1;
                 this.gene.id = item._id
                 this.gene.locus = item.locus
