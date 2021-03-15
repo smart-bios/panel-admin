@@ -19,7 +19,7 @@ export default {
   },
   data(){
     return{
-      today: moment.utc('2021-03-07T01:59:10.934+00:00').format('L')
+      today: moment.utc().format('L')
     }
   }
 }

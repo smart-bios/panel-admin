@@ -1,24 +1,24 @@
 <template>
     <div>
-        <h1>Genes</h1>
+        <h1>Proteins</h1>
         <hr class="mb-3">
         <v-card>
             <v-card-title>
                 <v-select 
                 dense 
-                v-model="gene.assembly" 
+                v-model="protein.assembly" 
                 :items="assemblys" 
                 item-text="code" 
                 item-value="_id" 
                 label="Assembly" 
-                @change="listgenes()" 
+                @change="listproteins()" 
                 hint="Seleccione un ensamble"
                 persistent-hint
                  outlined></v-select>
                 <v-spacer></v-spacer>
                 <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on }">
-                        <v-btn color="primary" small elevation="3" dark v-on="on">ADD GENE</v-btn>
+                        <v-btn color="primary" small elevation="3" dark v-on="on">ADD Protein</v-btn>
                     </template>
                     <v-card>
                         <v-card-title>
@@ -28,20 +28,35 @@
                             <v-container>
                                 <v-row>
                                     <v-col cols="12" md="6">
-                                        <v-select cdense v-model="gene.assembly" :items="assemblys" item-text="code" item-value="_id" label="Assembly *" outlined></v-select>
+                                        <v-select dense v-model="protein.assembly" :items="assemblys" item-text="code" item-value="_id" label="Assembly *" outlined></v-select>
                                     </v-col>
                                     <v-col cols="12" md=6>
-                                        <v-text-field dense label="Locus*" type="text" v-model="gene.locus" required></v-text-field>
+                                        <v-text-field dense label="Locus*" type="text" v-model="protein.locus" required></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md=4>
+                                        <v-text-field dense label="Length*" type="text" v-model="protein.length" required></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md=4>
+                                        <v-text-field dense label="Preferred Name*" type="text" v-model="protein.preferred_name" required></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md=4>
+                                        <v-text-field dense label="COG" type="text" v-model="protein.cluster_orthologous_group" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-textarea outlined label="Sequence *" v-model="gene.sequence"></v-textarea>
+                                        <v-textarea outlined label="Sequence *" v-model="protein.sequence"></v-textarea>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-textarea outlined label="Description" v-model="gene.desc"></v-textarea>
+                                        <v-textarea outlined label="Description" v-model="protein.desc"></v-textarea>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-select dense :items= product label="Product" v-model="gene.product"></v-select>
-                                    </v-col>       
+                                        <v-textarea outlined label="Gene Ontology *" v-model="protein.gene_ontology"></v-textarea>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-textarea outlined label="Kegg Ko *" v-model="protein.kegg_ko"></v-textarea>
+                                    </v-col>
+                                    <v-col cols="12">
+                                        <v-textarea outlined label="Kegg Pathway *" v-model="protein.kegg_pathway"></v-textarea>
+                                    </v-col>     
                                 </v-row>
                             </v-container>
                             <small>*indicates required field</small>
@@ -67,7 +82,7 @@
 
                  <v-data-table
                     :headers="headers"
-                    :items="genes"
+                    :items="proteins"
                     :search="search"
                     :loading = "loading" 
                 >
@@ -96,20 +111,24 @@
                 headers: [
                     {text: 'Locus ID', value: 'locus', align: 'left', sortable: false},
                     {text: 'Description', value: 'desc', align: 'left', sortable: false},
-                    {text: 'Product', value: 'product', align: 'left', sortable: true},
+                    {text: 'Preferred Name', value: 'preferred_name', align: 'left', sortable: false},
+                    {text: 'Sequence', value: 'sequence', align: 'left', sortable: false},
                     {text: '', value: 'action', align: 'left', sortable: false},
                 ],
-                product: ['mRNA','tRNA', 'rRNA', 'smallRNA', 'tmRNA'],
-                genes: [],
+                proteins: [],
                 assemblys: [],
-                gene: {
+                protein: {
                     id: '',
                     locus: '',
                     assembly: '',
                     sequence: '',
                     length: '',
-                    product: '',
-                    desc:''
+                    desc:'',
+                    preferred_name: '',
+                    cluster_orthologous_group: '',
+                    gene_ontology: '',
+                    kegg_ko: '',
+                    kegg_pathway:''
                 },
                 editedIndex : -1,
                 message: '',
@@ -124,7 +143,7 @@
 
         computed: {
             formTitle() {
-                return this.editedIndex === -1 ? 'New gene' : 'Edit gene'
+                return this.editedIndex === -1 ? 'New protein' : 'Edit protein'
             },
         },
 
@@ -138,17 +157,19 @@
                 }
             },
 
-            async listgenes(){
+            async listproteins(){
                 try {
                     this.loading = true
-                    let res = await this.axios.get(`/gene/list/${this.gene.assembly}`)
+                    let res = await this.axios.get(`/protein/find/${this.protein.assembly}`)
                     if(res.data.status == 'success'){
-                        this.genes = res.data.result
+                        this.proteins = res.data.result
                         this.loading = false
+                       
                     }                
     
                 } catch (error) {
                      console.log(error)
+                      this.loading = false
                 }             
             },
 
@@ -157,11 +178,10 @@
                if(this.editedIndex == -1){
                    try {
                        //let res = await this.axios.post('/user/add', this.user, config)
-                       let res = await this.axios.post('/gene/add', this.user)
+                       let res = await this.axios.post('/protein/add', this.protein)
                        this.message = res.data.msg
                        this.status = res.data.status
                        if(res.data.status == 'success'){
-                            this.list()
                             this.close()
                        }
                        this.snackbar= true
@@ -171,7 +191,7 @@
                }else{
                    try {
                        //let res = await this.axios.put(`/user/update/${this._id}`, this.user, config)
-                        let res = await this.axios.put(`/gene/edit/${this.gene.id}`, this.gene)
+                        let res = await this.axios.put(`/protein/edit/${this.protein.id}`, this.protein)
                         this.message = res.data.msg
                         this.status = res.data.status
                         
@@ -189,22 +209,26 @@
             edit(item){
 
                 this.editedIndex = 1;
-                this.gene.id = item._id
-                this.gene.locus = item.locus
-                this.gene.sequence = item.sequence
-                this.gene.desc = item.desc
-                this.gene.product = item.product
+                this.protein.id = item._id
+                this.protein.locus = item.locus
+                this.protein.sequence = item.sequence
+                this.protein.desc = item.desc
+                this.protein.length = item.length
+                this.protein.preferred_name = item.preferred_name
+                this.protein.cluster_orthologous_group = item.cluster_orthologous_group
+                this.protein.gene_ontology = item.gene_ontology
+                this.protein.kegg_ko = item.kegg_ko
+                this.protein.kegg_pathway = item.kegg_pathway
                 this.dialog = true 
             },
 
             async remove(item){
                 //let config = { headers : { token : this.$store.state.token}}
                 confirm('Estás segura de que quieres eliminar este gen?') &&
-                await this.axios.delete(`/gene/delete/${item._id}`)
+                await this.axios.delete(`/protein/delete/${item._id}`)
                 .then(res => {
                     this.message = res.data.msg
                     this.status = res.data.status
-                    this.list();
                     this.snackbar = true
                 }).catch(error => {
                     console.log(error)
@@ -212,10 +236,15 @@
             },
 
             clear(){
-                this.gene.locus = ''
-                this.gene.sequence = ''
-                this.gene.product = ''
-                this.gene.desc
+                this.protein.locus = ''
+                this.protein.sequence = ''
+                this.protein.desc = ''
+                this.protein.length = ''
+                this.protein.preferred_name = ''
+                this.protein.cluster_orthologous_group = ''
+                this.protein.gene_ontology = ''
+                this.protein.kegg_ko = ''
+                this.protein.kegg_pathway = ''
             },
             
             close(){

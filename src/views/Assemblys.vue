@@ -42,11 +42,11 @@
                                     <v-col cols="12" md="3" sm="4">
                                         <v-text-field label="Size(mb)" v-model="assembly.size"></v-text-field>
                                     </v-col>
-                                     <v-col cols="12" md="3" sm="4">
-                                        <v-text-field label="#CDS" v-model="assembly.cds"></v-text-field>
-                                    </v-col>
-                                     <v-col cols="12" md="3" sm="4">
+                                    <v-col cols="12" md="3" sm="4">
                                         <v-text-field label="#Genes" v-model="assembly.genes"></v-text-field>
+                                    </v-col>
+                                    <v-col cols="12" md="3" sm="4">
+                                        <v-text-field label="#mRNA" v-model="assembly.cds"></v-text-field>
                                     </v-col>
                                     <v-col cols="12" md="3" sm="4">
                                         <v-text-field label="#rRNA" v-model="assembly.rRNA"></v-text-field>
@@ -69,9 +69,9 @@
 
             <v-card-text>
                 <v-row>
-                    <v-col col="12" xs= "12" sm= "12" md="4" v-for="item in assemblys" :key= item._id>
+                    <v-col col="12" xs= "12" sm= "12" md="6" lg="4" v-for="item in assemblys" :key= item._id>
                         <v-card elevation="12">
-                            <v-card-title>{{item.code}}</v-card-title>
+                            <v-card-title>{{item.code}} {{item.version}}</v-card-title>
                             <v-card-subtitle> 
                                 {{item.project.code}} 
                                 <br>
@@ -85,24 +85,22 @@
                                     <template v-slot:default>
                                     <thead>
                                         <tr>
-                                            <th class="text-left">Version</th>
                                             <th class="text-left">Level</th>
                                             <th class="text-left">#Contig</th>
                                             <th class="text-left">Size</th>
-                                            <th class="text-left">#cds</th>
-                                            <th class="text-left">#genes</th>
+                                            <th class="text-left">#Genes</th>
+                                            <th class="text-left">#mRNA</th>
                                             <th class="text-left">#rRNA</th>
                                             <th class="text-left">#tRNA</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>{{ item.version}}</td>
                                             <td>{{ item.level}}</td>
                                             <td>{{ item.contig}}</td>
                                             <td>{{ item.size}}</td>
-                                            <td>{{ item.cds}}</td>
                                             <td>{{ item.genes}}</td>
+                                            <td>{{ item.cds}}</td>
                                             <td>{{ item.rRNA}}</td>
                                             <td>{{ item.tRNA}}</td>
                                         </tr>

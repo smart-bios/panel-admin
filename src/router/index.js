@@ -9,6 +9,7 @@ import Species from '../views/Species.vue'
 import Projects from '../views/Projects.vue'
 import Assemblys from '../views/Assemblys.vue'
 import Genes from '../views/Genes.vue'
+import Proteins from '../views/Proteins.vue'
 import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
@@ -69,6 +70,14 @@ Vue.use(VueRouter)
     path: '/genes',
     name: 'Genes',
     component: Genes,
+    meta: {
+      user: true
+    }
+  },
+  {
+    path: '/proteins',
+    name: 'Proteins',
+    component: Proteins,
     meta: {
       user: true
     }
