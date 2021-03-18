@@ -54,7 +54,7 @@
             
             <v-card-text>
                 <v-row>
-                    <v-col cols="12" md="4" v-for="item in species" :key= item._id>
+                    <v-col cols="12" md="6" lg="4" v-for="item in species" :key= item._id>
                         <v-card class="mx-auto" elevation="12">
                             <v-list-item three-line>
                                 <v-list-item-content>
