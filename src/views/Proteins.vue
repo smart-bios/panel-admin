@@ -174,11 +174,11 @@
             },
 
             async register(){
-               //let config = { headers : { token : this.$store.state.token}}
+               let config = { headers : { token : this.$store.state.token}}
                if(this.editedIndex == -1){
                    try {
                        //let res = await this.axios.post('/user/add', this.user, config)
-                       let res = await this.axios.post('/protein/add', this.protein)
+                       let res = await this.axios.post('/protein/add', this.protein, config)
                        this.message = res.data.msg
                        this.status = res.data.status
                        if(res.data.status == 'success'){
@@ -191,7 +191,7 @@
                }else{
                    try {
                        //let res = await this.axios.put(`/user/update/${this._id}`, this.user, config)
-                        let res = await this.axios.put(`/protein/edit/${this.protein.id}`, this.protein)
+                        let res = await this.axios.put(`/protein/edit/${this.protein.id}`, this.protein, config)
                         this.message = res.data.msg
                         this.status = res.data.status
                         
@@ -223,9 +223,9 @@
             },
 
             async remove(item){
-                //let config = { headers : { token : this.$store.state.token}}
+                let config = { headers : { token : this.$store.state.token}}
                 confirm('Estás segura de que quieres eliminar este gen?') &&
-                await this.axios.delete(`/protein/delete/${item._id}`)
+                await this.axios.delete(`/protein/delete/${item._id}`, config)
                 .then(res => {
                     this.message = res.data.msg
                     this.status = res.data.status
@@ -257,6 +257,6 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

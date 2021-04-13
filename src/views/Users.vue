@@ -66,7 +66,6 @@
                     :headers="headers"
                     :items="users"
                     :search="search"
-                    dense
                 >
                     <template v-slot:[`item.status`]="{ item }">
                         <v-chip :color="getColor(item.status)" dark></v-chip>
@@ -131,10 +130,9 @@
 
             async list(){
                 try {
-                    //let config = { headers : { token : this.$store.state.token}}
+                    let config = { headers : { token : this.$store.state.token}}
                     //let res = await this.axios.get('/user/list', config)
-                    let res = await this.axios.get('/user/list')
-                    //console.log(res.data);
+                    let res = await this.axios.get('/user/list', config)
                     this.users = res.data.result
                 } catch (error) {
                      console.log(error)
@@ -142,11 +140,11 @@
             },
 
             async register(){
-               //let config = { headers : { token : this.$store.state.token}}
+               let config = { headers : { token : this.$store.state.token}}
                if(this.editedIndex == -1){
                    try {
                        //let res = await this.axios.post('/user/add', this.user, config)
-                       let res = await this.axios.post('/user/add', this.user)
+                       let res = await this.axios.post('/user/add', this.user, config)
                        this.message = res.data.msg
                        this.status = res.data.status
                        if(res.data.status == 'success'){
@@ -165,7 +163,7 @@
                             email: this.user.email,
                             role: this.user.role,
                             status: this.user.status
-                        })
+                        }, config)
                         
                         this.message = res.data.msg
                         this.status = res.data.status
@@ -182,20 +180,18 @@
 
             edit(item){
 
-               // console.log(item._id)
                 this.editedIndex = 1;
                 this.user.id = item._id
                 this.user.username = item.username
                 this.user.email = item.email
                 this.user.role = item.role
-                //this.user.status = item.status
                 this.dialog = true 
             },
 
             async remove(item){
-                //let config = { headers : { token : this.$store.state.token}}
+                let config = { headers : { token : this.$store.state.token}}
                 confirm('Estás segura de que quieres eliminar este usuario?') &&
-                await this.axios.delete(`/user/delete/${item._id}`)
+                await this.axios.delete(`/user/delete/${item._id}`, config)
                 .then(res => {
                     this.message = res.data.msg
                     this.status = res.data.status

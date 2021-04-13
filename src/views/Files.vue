@@ -32,6 +32,7 @@
                     { text: 'Date', value: 'createdAt'},
                     {text: '', value: 'action'},
                 ],
+                status: '',
                 message:''
             }
         },
@@ -44,9 +45,9 @@
 
         methods:{
             async list(){
-
+                let config = { headers : { token : this.$store.state.token}}
                 try {
-                    let res = await this.axios.get('/storage/list')
+                    let res = await this.axios.get('/storage/list', config)
                     this.files = res.data.result
                 } catch (error) {
                     console.log(error)
@@ -56,9 +57,10 @@
             async remove(item){
                 try {
                     //let res = await this.axios.delete(`/storage/delete/${item._id}`)
+                    let config = { headers : { token : this.$store.state.token}}
 
                     confirm('Estás segura de que quieres eliminar este archivo?') &&
-                    await this.axios.delete(`/storage/delete/${item._id}`)
+                    await this.axios.delete(`/storage/delete/${item._id}`, config)
                     .then(res => {
                         this.message = res.data.msg
                         this.status = res.data.status

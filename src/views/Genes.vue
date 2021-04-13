@@ -5,16 +5,17 @@
         <v-card>
             <v-card-title>
                 <v-select 
-                dense 
-                v-model="gene.assembly" 
-                :items="assemblys" 
-                item-text="code" 
-                item-value="_id" 
-                label="Assembly" 
-                @change="listgenes()" 
-                hint="Seleccione un ensamble"
-                persistent-hint
-                 outlined></v-select>
+                    dense 
+                    v-model="gene.assembly" 
+                    :items="assemblys" 
+                    item-text="code" 
+                    item-value="_id" 
+                    label="Assembly" 
+                    @change="listgenes()" 
+                    hint="Seleccione un ensamble"
+                    persistent-hint
+                    outlined
+                ></v-select>
                 <v-spacer></v-spacer>
                 <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on }">
@@ -153,11 +154,11 @@
             },
 
             async register(){
-               //let config = { headers : { token : this.$store.state.token}}
+               let config = { headers : { token : this.$store.state.token}}
                if(this.editedIndex == -1){
                    try {
                        //let res = await this.axios.post('/user/add', this.user, config)
-                       let res = await this.axios.post('/gene/add', this.user)
+                       let res = await this.axios.post('/gene/add', this.user, config)
                        this.message = res.data.msg
                        this.status = res.data.status
                        if(res.data.status == 'success'){
@@ -171,7 +172,7 @@
                }else{
                    try {
                        //let res = await this.axios.put(`/user/update/${this._id}`, this.user, config)
-                        let res = await this.axios.put(`/gene/edit/${this.gene.id}`, this.gene)
+                        let res = await this.axios.put(`/gene/edit/${this.gene.id}`, this.gene, config)
                         this.message = res.data.msg
                         this.status = res.data.status
                         

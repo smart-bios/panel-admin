@@ -9,19 +9,17 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: null,
-    token: null,
-    files: []
+    token: null
+  
   },
 
   mutations: {
     setToken(state, token){
       state.token = token;
     },
+
     setUsuario(state, user){
       state.user = user;
-    },
-    setFiles(state, files){
-      state.files = files
     }
   },
 
@@ -29,7 +27,8 @@ export default new Vuex.Store({
     saveToken({commit}, token){
       commit("setToken", token)
       commit("setUsuario", decode(token))
-      localStorage.setItem("token", token)
+      window.localStorage.setItem("token", token)
+      return decode(token)
     },
 
     autoLogin({commit}){

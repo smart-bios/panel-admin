@@ -197,9 +197,10 @@
             async register(){
 
                if(this.editedIndex == -1){
+                   let config = { headers : { token : this.$store.state.token}}
+                   
                    try {
-                       //let res = await this.axios.post('/user/add', this.user, config)
-                       let res = await this.axios.post('/assembly/add', this.assembly)
+                       let res = await this.axios.post('/assembly/add', this.assembly, config)
                        this.message = res.data.msg
                        this.status = res.data.status
                        if(res.data.status == 'success'){
@@ -213,7 +214,7 @@
                }else{
                    try {
                        //let res = await this.axios.put(`/user/update/${this._id}`, this.user, config)
-                        let res = await this.axios.put(`/assembly/edit/${this.assembly.id}`, this.assembly)
+                        let res = await this.axios.put(`/assembly/edit/${this.assembly.id}`, this.assembly, config)
                         
                         this.message = res.data.msg
                         this.status = res.data.status
@@ -230,9 +231,9 @@
             },
 
             async remove(item){
-                //let config = { headers : { token : this.$store.state.token}}
+                let config = { headers : { token : this.$store.state.token}}
                 confirm('Estás seguro de que quieres eliminar?') &&
-                await this.axios.delete(`/assembly/delete/${item._id}`)
+                await this.axios.delete(`/assembly/delete/${item._id}`, config)
                 .then(res => {
                     console.log(res.data)
                     this.message = res.data.msg
@@ -243,7 +244,6 @@
                     console.log(error)
                 });
             },
-
 
             edit(item){
 
@@ -284,7 +284,7 @@
                 this.dialog = false
                 this.editedIndex=-1;
             },
-
+            
             uppercase() {
                 this.assembly.code = this.assembly.code.toUpperCase();
             }
