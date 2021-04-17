@@ -131,8 +131,9 @@
 
         methods:{
             async listAssemblys(){
+                let config = { headers : { token : this.$store.state.token}}
                 try {
-                    let res = await this.axios.get('/assembly/list')
+                    let res = await this.axios.get('/assembly/list', config)
                     this.assemblys = res.data.result
                 } catch (error) {
                     console.log(error)
@@ -140,9 +141,10 @@
             },
 
             async listgenes(){
+                let config = { headers : { token : this.$store.state.token}}
                 try {
                     this.loading = true
-                    let res = await this.axios.get(`/gene/list/${this.gene.assembly}`)
+                    let res = await this.axios.get(`/gene/list/${this.gene.assembly}`, config)
                     if(res.data.status == 'success'){
                         this.genes = res.data.result
                         this.loading = false

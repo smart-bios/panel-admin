@@ -3,10 +3,11 @@
         <h1>Especies</h1>
         <hr class="mb-3">
         <v-card class="px-3 mt-3">
+
             <v-card-title>
                 <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on, attrs }">
-                        <v-btn color="primary" dark small elevation="3" v-bind="attrs" v-on="on"> Add Specie</v-btn>
+                        <v-btn color="primary" dark small elevation="3" v-bind="attrs" v-on="on"> Nueva Especie</v-btn>
                     </template>
 
                     <v-card>
@@ -16,22 +17,22 @@
                             <v-container>
                                 <v-row>
                                     <v-col cols="12" sm="12">
-                                        <v-select :items= kingdom label="Kingdom*" v-model="specie.kingdom" required></v-select>
+                                        <v-select :items= kingdom label="Reino*" v-model="specie.kingdom" required></v-select>
                                     </v-col>
                                     <v-col cols="12" sm="6">
-                                        <v-text-field label="Name*" v-model="specie.name" required></v-text-field>
+                                        <v-text-field label="Nombre comun*" v-model="specie.name" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="6">
-                                        <v-text-field label="Scientific name*" v-model="specie.scientific_name" required></v-text-field>
+                                        <v-text-field label="Nombre cientifico*" v-model="specie.scientific_name" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="6">
-                                        <v-text-field label="Short name" v-model="specie.short_name" required></v-text-field>
+                                        <v-text-field label="Nombre corto (bowtie2)" v-model="specie.short_name" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="6">
                                         <v-text-field label="Alias" v-model="specie.alias" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12">
-                                        <v-textarea outlined label="Description" v-model="specie.description"
+                                        <v-textarea outlined label="Descripción" v-model="specie.description"
                                         ></v-textarea>
                                     </v-col>
                                     <v-col cols="12" sm="12">
@@ -53,7 +54,16 @@
             </v-card-title>
             
             <v-card-text>
-                <v-row>
+                <v-data-table
+                    :headers="headers"
+                    :items="species"
+                >
+                    <template v-slot:[`item.action`]="{ item }">
+                        <v-btn x-small color="info" dark @click="edit(item)" >Editar</v-btn>
+                        <v-btn x-small color="error" dark @click="remove(item)" >Eliminar</v-btn>
+                    </template>
+                </v-data-table>
+                <!-- <v-row>
                     <v-col cols="12" md="6" lg="4" v-for="item in species" :key= item._id>
                         <v-card class="mx-auto" elevation="12">
                             <v-list-item three-line>
@@ -82,8 +92,9 @@
                             </v-card-actions>
                         </v-card>
                     </v-col>                  
-                </v-row>
+                </v-row> -->
             </v-card-text>
+
             <v-snackbar v-model="snackbar" :timeout= "timeout" :color="status">
                 {{message}}
             </v-snackbar>
@@ -101,6 +112,13 @@
                 snackbar: false,
                 timeout : 4000,
                 species: [],
+                headers: [
+                    {text: 'Nombre Común', value: 'name', align: 'left', sortable: false},
+                    {text: 'Nombre Cientifico', value: 'scientific_name', align: 'left', sortable: false},
+                    {text: 'Reino', value: 'kingdom', align: 'center', sortable: false},
+                    {text: 'Descripción', value: 'description', align: 'left', sortable: false},
+                    {text: '', value: 'action', align: 'left', sortable: false},
+                ],
                 specie: {
                     id: '',
                     name: '',
@@ -123,7 +141,7 @@
 
         computed: {
             formTitle() {
-                return this.editedIndex === -1 ? 'New specie' : 'Edit specie'
+                return this.editedIndex === -1 ? 'Nueva Especie' : 'Editar Especie'
             },
         },
 
@@ -139,9 +157,10 @@
             },
 
             async register(){
-
-               if(this.editedIndex == -1){
-                   let config = { headers : { token : this.$store.state.token}}
+                let config = { headers : { token : this.$store.state.token}}
+                
+                if(this.editedIndex == -1){
+                   
                    try {
                        let res = await this.axios.post('/specie/add', this.specie, config)
                        this.message = res.data.msg
@@ -154,7 +173,7 @@
                    } catch (error) {
                        console.log(error)
                    }
-               }else{
+                }else{
                    try {
                        //let res = await this.axios.put(`/user/update/${this._id}`, this.user, config)
                         let res = await this.axios.put(`/specie/edit/${this.specie.id}`, this.specie, config)

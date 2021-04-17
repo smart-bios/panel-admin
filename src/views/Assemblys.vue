@@ -7,7 +7,7 @@
             <v-card-title>
                 <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on, attrs }">
-                        <v-btn color="primary" dark elevation="2" small v-bind="attrs" v-on="on"> Add Assembly</v-btn>
+                        <v-btn color="primary" dark elevation="2" small v-bind="attrs" v-on="on"> Nuevo Ensamble</v-btn>
                     </template>
 
                     <v-card>
@@ -16,19 +16,19 @@
                             <v-container>
                                 <v-row>
                                     <v-col cols="12" sm="6">
-                                         <v-select v-model="assembly.project" :items="projects" item-text="code" item-value="_id" label="Project" required></v-select>
+                                         <v-select v-model="assembly.project" :items="projects" item-text="code" item-value="_id" label="Projecto" required></v-select>
                                     </v-col>
                                     <v-col cols="12" sm="6">
-                                        <v-text-field label="Code*"  @keyup="uppercase" v-model="assembly.code" required></v-text-field>
+                                        <v-text-field label="Codigo ensamble*"  @keyup="uppercase" v-model="assembly.code" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="6">
-                                        <v-select v-model="assembly.specie" :items="species" item-text="scientific_name" item-value="_id" label="Specie"></v-select>
+                                        <v-select v-model="assembly.specie" :items="species" item-text="scientific_name" item-value="_id" label="Especie"></v-select>
                                     </v-col>
                                     <v-col cols="12" sm="6">
                                         <v-text-field label="Pathovar/Cultivar" v-model="assembly.variety" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12">
-                                        <v-textarea outlined label="Methods" v-model="assembly.methods"></v-textarea>
+                                        <v-textarea outlined label="Metodologia" v-model="assembly.methods"></v-textarea>
                                     </v-col>
                                     <v-col cols="12" md="3" sm="4">
                                         <v-text-field label="Version" v-model="assembly.version" required></v-text-field>
@@ -68,7 +68,16 @@
             </v-card-title>
 
             <v-card-text>
-                <v-row>
+                <v-data-table
+                    :headers="headers"
+                    :items="assemblys"
+                >
+                    <template v-slot:[`item.action`]="{ item }">
+                        <v-btn x-small color="info" dark @click="edit(item)" >Editar</v-btn>
+                        <v-btn x-small color="error" dark @click="remove(item)" >Eliminar</v-btn>
+                    </template>
+                </v-data-table>
+                <!-- <v-row>
                     <v-col col="12" xs= "12" sm= "12" md="6" lg="4" v-for="item in assemblys" :key= item._id>
                         <v-card elevation="12">
                             <v-card-title>{{item.code}} {{item.version}}</v-card-title>
@@ -114,7 +123,7 @@
                             </v-card-actions>
                         </v-card>
                     </v-col>
-                </v-row>
+                </v-row> -->
             </v-card-text>
         </v-card>
         <v-snackbar v-model="snackbar" :timeout= "timeout" :color="status">{{message}}</v-snackbar>
@@ -131,6 +140,17 @@
                 projects: [],
                 species: [],
                 assemblys:[],
+                headers: [
+                    {text: 'Proyecto', value: 'project.code', align: 'left', sortable: true},
+                    {text: 'Codigo Ensamble', value: 'code', align: 'left', sortable: false},
+                    {text: 'Especie', value: 'specie.scientific_name', align: 'left', sortable: true},
+                    {text: 'Total Ensamblado (mb)', value: 'size', align: 'left', sortable: false},
+                    {text: 'Nivel de ensamble', value: 'level', align: 'left', sortable: false},
+                    {text: '# Contigs', value: 'contig', align: 'left', sortable: false},
+                    {text: '# Genes', value: 'genes', align: 'left', sortable: false},
+                    {text: '# Proteinas', value: 'cds', align: 'left', sortable: false},
+                    {text: '', value: 'action', align: 'left', sortable: false},
+                ],
                 assembly: {
                     id: '',
                     project: '',
@@ -161,14 +181,15 @@
 
         computed: {
             formTitle() {
-                return this.editedIndex === -1 ? 'New assembly' : 'Edit assembly'
+                return this.editedIndex === -1 ? 'Nuevo Ensamble' : 'Editar Ensamble'
             },
         },
 
         methods: {
             async listProjects(){
+                let config = { headers : { token : this.$store.state.token}}
                 try {
-                    let res = await this.axios.get('/project/list')
+                    let res = await this.axios.get('/project/list', config)
                     this.projects = res.data.result
                 } catch (error) {
                     console.log(error)
@@ -176,8 +197,9 @@
             },
 
             async listSpecies(){
+                let config = { headers : { token : this.$store.state.token}}
                 try {
-                    let res = await this.axios.get('/specie/list')
+                    let res = await this.axios.get('/specie/list', config)
                     this.species = res.data.result
                 } catch (error) {
                     console.log(error)
@@ -186,7 +208,8 @@
 
             async list() {
                 try {
-                    let res = await this.axios.get('/assembly/list')
+                    let config = { headers : { token : this.$store.state.token}}
+                    let res = await this.axios.get('/assembly/list', config)
                     this.assemblys = res.data.result
                 
                 } catch (error) {
@@ -195,10 +218,8 @@
             },
 
             async register(){
-
-               if(this.editedIndex == -1){
-                   let config = { headers : { token : this.$store.state.token}}
-                   
+                let config = { headers : { token : this.$store.state.token}}
+                if(this.editedIndex == -1){
                    try {
                        let res = await this.axios.post('/assembly/add', this.assembly, config)
                        this.message = res.data.msg
@@ -211,9 +232,8 @@
                    } catch (error) {
                        console.log(error)
                    }
-               }else{
+                }else{
                    try {
-                       //let res = await this.axios.put(`/user/update/${this._id}`, this.user, config)
                         let res = await this.axios.put(`/assembly/edit/${this.assembly.id}`, this.assembly, config)
                         
                         this.message = res.data.msg
@@ -227,7 +247,7 @@
                    } catch (error) {
                        console.log(error)  
                    }
-               }
+                }
             },
 
             async remove(item){

@@ -59,8 +59,8 @@
                 { text: 'Proyectos', icon: 'mdi-database', to: 'Projects'},
                 { text: 'Ensambles', icon: 'mdi-database', to: 'Assemblys'},
                 { text: 'Genes', icon: 'mdi-database', to: 'Genes'},
-                { text: 'Proteins', icon: 'mdi-database', to: 'Proteins'},
-                { text: 'Especies', icon: 'mdi-format-align-justify', to: 'Species' },
+                { text: 'Proteinas', icon: 'mdi-database', to: 'Proteins'},
+                { text: 'Especies', icon: 'mdi-database', to: 'Species' },
                 { text: 'Usuarios', icon: 'mdi-account-multiple', to: 'Users' },
                 { text: 'Archivos', icon: 'mdi-folder', to: 'Files' },
                 

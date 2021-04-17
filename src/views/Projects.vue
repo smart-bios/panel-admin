@@ -3,10 +3,11 @@
         <h1>Proyectos</h1>
         <hr class="mb-3">
         <v-card class="px-3 mt-3">
+
             <v-card-title>
                 <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on, attrs }">
-                        <v-btn color="primary" dark small elevation="3" v-bind="attrs" v-on="on"> Add Project</v-btn>
+                        <v-btn color="primary" dark small elevation="3" v-bind="attrs" v-on="on"> Nuevo Proyecto</v-btn>
                     </template>
 
                     <v-card>
@@ -15,16 +16,16 @@
                             <v-container>
                                 <v-row>
                                     <v-col cols="12" md="3">
-                                        <v-text-field label="Code*"  @keyup="uppercase" v-model="project.code" required></v-text-field>
+                                        <v-text-field label="Codigo*" v-model="project.code" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12" md="7">
-                                        <v-text-field label="Advisor" v-model="project.advisor" required></v-text-field>
+                                        <v-text-field label="Investigador" v-model="project.advisor" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12" md="2">
-                                        <v-text-field label="Year" v-model="project.year" required></v-text-field>
+                                        <v-text-field label="Año" v-model="project.year" required></v-text-field>
                                     </v-col>
                                     <v-col cols="12" sm="12">
-                                        <v-textarea outlined label="Description" v-model="project.description"
+                                        <v-textarea outlined label="Descripción" v-model="project.description"
                                         ></v-textarea>
                                     </v-col>
                                 </v-row>
@@ -41,7 +42,17 @@
             </v-card-title>
             
             <v-card-text>
-                <v-row>
+
+                <v-data-table
+                    :headers="headers"
+                    :items="projects"
+                >
+                    <template v-slot:[`item.action`]="{ item }">
+                        <v-btn x-small color="info" dark @click="edit(item)" >Editar</v-btn>
+                        <v-btn x-small color="error" dark @click="remove(item)" >Eliminar</v-btn>
+                    </template>
+                </v-data-table>
+               <!--  <v-row>
                     <v-col cols="12" md="4" v-for="item in projects" :key= item._id>
                         <v-card elevation="12">
                             <v-card-title >{{item.code}}</v-card-title>
@@ -57,7 +68,7 @@
                             </v-card-actions>
                         </v-card>
                     </v-col>
-                </v-row>
+                </v-row> -->
             </v-card-text>
         </v-card>
         <v-snackbar v-model="snackbar" :timeout= "timeout" :color="status">{{message}}</v-snackbar>
@@ -73,12 +84,20 @@
                 snackbar: false,
                 timeout : 4000,
                 projects: [],
+                headers: [
+                    {text: 'Codigo Proyecto', value: 'code', align: 'left', sortable: false},
+                    {text: 'Investigador', value: 'advisor', align: 'left', sortable: false},
+                    {text: 'Año', value: 'year', align: 'left', sortable: false},
+                    {text: 'Descripción', value: 'description', align: 'left', sortable: false},
+                    {text: '', value: 'action', align: 'left', sortable: false},
+                ],
                 project: {
                     id: '',
                     code: '',
                     advisor: '',
                     year: '',
-                    description: ''                },
+                    description: ''
+                },
                 editedIndex : -1,
                 message: '',
                 status: ''
@@ -91,14 +110,19 @@
 
         computed: {
             formTitle() {
-                return this.editedIndex === -1 ? 'New project' : 'Edit project'
+                return this.editedIndex === -1 ? 'Nuevo Proyecto' : 'Editar Proyecto'
             },
+
+            uppercase() {
+                return this.project.code.toUpperCase();
+            }
         },
 
         methods: {
             async list() {
+                let config = { headers : { token : this.$store.state.token}}
                 try {
-                    let res = await this.axios.get('/project/list')
+                    let res = await this.axios.get('/project/list', config)
                     this.projects = res.data.result
                 
                 } catch (error) {
@@ -107,11 +131,10 @@
             },
 
             async register(){
-
-               if(this.editedIndex == -1){
-                   let config = { headers : { token : this.$store.state.token}}
+                let config = { headers : { token : this.$store.state.token}}
+                
+                if(this.editedIndex == -1){  
                    try {
-                       //let res = await this.axios.post('/user/add', this.user, config)
                        let res = await this.axios.post('/project/add', this.project, config)
                        this.message = res.data.msg
                        this.status = res.data.status
@@ -125,7 +148,6 @@
                    }
                }else{
                    try {
-                       //let res = await this.axios.put(`/user/update/${this._id}`, this.user, config)
                         let res = await this.axios.put(`/project/edit/${this.project.id}`, this.project, config)
                         
                         this.message = res.data.msg
@@ -182,9 +204,9 @@
                 this.editedIndex=-1;
             },
 
-            uppercase() {
+           /*  uppercase() {
                 this.project.code = this.project.code.toUpperCase();
-            }
+            } */
 
         }
         
