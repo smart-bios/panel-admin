@@ -2,7 +2,7 @@
     <div>
         <h1>Usuarios</h1>
         <hr class="mb-3">
-        <v-card class="px-3 mt-3">
+        <v-card class="px-3 mt-3" min-height="720">
             <v-card-title>
                 <v-dialog v-model="dialog" persistent max-width="600px">
                     <template v-slot:activator="{ on }">
@@ -66,6 +66,7 @@
                     :headers="headers"
                     :items="users"
                     :search="search"
+                    class="elevation-1"
                 >
                     <template v-slot:[`item.status`]="{ item }">
                         <v-chip :color="getColor(item.status)" dark></v-chip>

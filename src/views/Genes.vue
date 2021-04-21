@@ -38,7 +38,7 @@
                                         <v-textarea outlined label="Sequence *" v-model="gene.sequence"></v-textarea>
                                     </v-col>
                                     <v-col cols="12">
-                                        <v-textarea outlined label="Description" v-model="gene.desc"></v-textarea>
+                                        <v-textarea outlined label="Description" v-model="gene.description"></v-textarea>
                                     </v-col>
                                     <v-col cols="12">
                                         <v-select dense :items= product label="Product" v-model="gene.product"></v-select>
@@ -96,7 +96,7 @@
                 timeout : 4000,
                 headers: [
                     {text: 'Locus ID', value: 'locus', align: 'left', sortable: false},
-                    {text: 'Description', value: 'desc', align: 'left', sortable: false},
+                    {text: 'Description', value: 'description', align: 'left', sortable: false},
                     {text: 'Product', value: 'product', align: 'left', sortable: true},
                     {text: '', value: 'action', align: 'left', sortable: false},
                 ],
@@ -110,7 +110,7 @@
                     sequence: '',
                     length: '',
                     product: '',
-                    desc:''
+                    description:''
                 },
                 editedIndex : -1,
                 message: '',
@@ -195,7 +195,7 @@
                 this.gene.id = item._id
                 this.gene.locus = item.locus
                 this.gene.sequence = item.sequence
-                this.gene.desc = item.desc
+                this.gene.description = item.description
                 this.gene.product = item.product
                 this.dialog = true 
             },
@@ -218,7 +218,7 @@
                 this.gene.locus = ''
                 this.gene.sequence = ''
                 this.gene.product = ''
-                this.gene.desc
+                this.gene.description
             },
             
             close(){

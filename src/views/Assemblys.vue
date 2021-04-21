@@ -2,7 +2,7 @@
     <div>
         <h1>Ensambles</h1>
         <hr class="mb-3">
-        <v-card class="px-3 mt-3">
+        <v-card class="px-3 mt-3" min-height="720">
             
             <v-card-title>
                 <v-dialog v-model="dialog" persistent max-width="600px">
@@ -71,6 +71,7 @@
                 <v-data-table
                     :headers="headers"
                     :items="assemblys"
+                    class="elevation-1"
                 >
                     <template v-slot:[`item.action`]="{ item }">
                         <v-btn x-small color="info" dark @click="edit(item)" >Editar</v-btn>
